@@ -30,7 +30,6 @@
  * Timer 3 for fan sensor
  * Timer 4 for water sensor
  *
- * Sensor distances are in centimeters
  * */
 
 /* USER CODE END Includes */
@@ -46,9 +45,9 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define AHS_SYS_CLK_MHZ		16
-#define MIN_DETECTION_DIST	3
-#define MAX_DETECTION_DIST	7
+//Equation: distance = pulse_width * prescaler / (clkMHz * 58) [prescaler = 200]
+#define MIN_PULSE_WIDTH	 15 //approximately 3cm
+#define MAX_PULSE_WIDTH	 40 //approximately 8cm
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -77,14 +76,12 @@ static void MX_TIM4_Init(void);
 bool HandsDetected(TIM_HandleTypeDef* htim)
 {
 	uint32_t pulseWidth = 0;
-	uint32_t sensorDist = 0;
 	if((htim->Instance->SR & TIM_SR_CC2IF) == TIM_SR_CC2IF)
 	{
 		pulseWidth = htim->Instance->CCR2;
-		sensorDist = (float)pulseWidth * htim->Init.Prescaler / (AHS_SYS_CLK_MHZ * 58);
 	}
 
-	if((sensorDist >= MIN_DETECTION_DIST) && (sensorDist <= MAX_DETECTION_DIST))
+	if((pulseWidth >= MIN_PULSE_WIDTH) && (pulseWidth <= MAX_PULSE_WIDTH))
 	{
 		return true;
 	}
@@ -308,7 +305,7 @@ static void MX_TIM1_Init(void)
   }
   /* USER CODE BEGIN TIM1_Init 2 */
   //Start PWM signal for ultrasonic sensors
-  HAL_TIM_Base_Start(&htim1);
+  HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_2);
   /* USER CODE END TIM1_Init 2 */
   HAL_TIM_MspPostInit(&htim1);
 
