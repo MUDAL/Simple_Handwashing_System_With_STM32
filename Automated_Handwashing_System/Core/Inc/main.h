@@ -61,6 +61,8 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define soapSensor_Pin GPIO_PIN_0
 #define soapSensor_GPIO_Port GPIOA
+#define powerLED_Pin GPIO_PIN_3
+#define powerLED_GPIO_Port GPIOA
 #define soapValve_Pin GPIO_PIN_4
 #define soapValve_GPIO_Port GPIOA
 #define soapLED_Pin GPIO_PIN_5

@@ -131,6 +131,11 @@ int main(void)
   bool soapValveShutOff = false;
   bool firstTickMeasured = false;
   uint32_t currTick = 0; //current tick
+
+  //Indicate power on (turn power LED on for some seconds, then turn off)
+  HAL_GPIO_WritePin(powerLED_GPIO_Port, powerLED_Pin, GPIO_PIN_SET);
+  HAL_Delay(3000);
+  HAL_GPIO_WritePin(powerLED_GPIO_Port, powerLED_Pin, GPIO_PIN_RESET);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -523,13 +528,13 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, soapValve_Pin|soapLED_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, powerLED_Pin|soapValve_Pin|soapLED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, waterValve_Pin|fan_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : soapValve_Pin soapLED_Pin */
-  GPIO_InitStruct.Pin = soapValve_Pin|soapLED_Pin;
+  /*Configure GPIO pins : powerLED_Pin soapValve_Pin soapLED_Pin */
+  GPIO_InitStruct.Pin = powerLED_Pin|soapValve_Pin|soapLED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
