@@ -196,14 +196,14 @@ int main(void)
 	  {
 		 HAL_GPIO_WritePin(fan_GPIO_Port, fan_Pin, GPIO_PIN_RESET);
 	  }
-	  //Read water sensor and actuate water valve (active low)
+	  //Read water sensor and actuate water valve
 	  if(HandsDetected(&htim4))
 	  {
-		  HAL_GPIO_WritePin(waterValve_GPIO_Port, waterValve_Pin, GPIO_PIN_RESET);
+		  HAL_GPIO_WritePin(waterValve_GPIO_Port, waterValve_Pin, GPIO_PIN_SET);
 	  }
 	  else
 	  {
-		  HAL_GPIO_WritePin(waterValve_GPIO_Port, waterValve_Pin, GPIO_PIN_SET);
+		  HAL_GPIO_WritePin(waterValve_GPIO_Port, waterValve_Pin, GPIO_PIN_RESET);
 	  }
   }
   /* USER CODE END 3 */
@@ -528,10 +528,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOA, powerLED_Pin|soapLED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, soapValve_Pin|fan_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(waterValve_GPIO_Port, waterValve_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB, soapValve_Pin|waterValve_Pin|fan_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : powerLED_Pin soapLED_Pin */
   GPIO_InitStruct.Pin = powerLED_Pin|soapLED_Pin;
