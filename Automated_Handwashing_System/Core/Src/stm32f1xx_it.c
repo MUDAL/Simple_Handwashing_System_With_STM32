@@ -42,7 +42,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-static bool toggleLED;
+static volatile bool toggleLED;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/

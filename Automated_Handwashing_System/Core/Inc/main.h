@@ -63,12 +63,12 @@ void Error_Handler(void);
 #define soapSensor_GPIO_Port GPIOA
 #define powerLED_Pin GPIO_PIN_3
 #define powerLED_GPIO_Port GPIOA
-#define soapValve_Pin GPIO_PIN_4
-#define soapValve_GPIO_Port GPIOA
 #define soapLED_Pin GPIO_PIN_5
 #define soapLED_GPIO_Port GPIOA
 #define fanSensor_Pin GPIO_PIN_6
 #define fanSensor_GPIO_Port GPIOA
+#define soapValve_Pin GPIO_PIN_10
+#define soapValve_GPIO_Port GPIOB
 #define waterValve_Pin GPIO_PIN_12
 #define waterValve_GPIO_Port GPIOB
 #define sensorTrigger_Pin GPIO_PIN_9

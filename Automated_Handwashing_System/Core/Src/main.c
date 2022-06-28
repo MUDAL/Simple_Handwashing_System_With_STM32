@@ -45,9 +45,9 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-//Equation: distance = pulse_width * prescaler / (clkMHz * 58) [prescaler = 200]
-#define MIN_PULSE_WIDTH	 15 //approximately 3cm
-#define MAX_PULSE_WIDTH	 40 //approximately 8cm
+//Equation: distance = pulse_width * echo_prescaler / (clkMHz * 58)
+#define MIN_PULSE_WIDTH	 15 //3.2cm
+#define MAX_PULSE_WIDTH	 40 //8.6cm
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -80,9 +80,9 @@ bool HandsDetected(TIM_HandleTypeDef* htim)
 	{
 		pulseWidth = htim->Instance->CCR2;
 	}
-
 	if((pulseWidth >= MIN_PULSE_WIDTH) && (pulseWidth <= MAX_PULSE_WIDTH))
 	{
+		HAL_Delay(150);
 		return true;
 	}
 	return false;
@@ -97,7 +97,14 @@ bool HandsDetected(TIM_HandleTypeDef* htim)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+  //Variable(s)
+  const uint32_t soapDispensationTime = 10000; //10 secs default
+  const uint32_t soapValveShutOffTime = 60000; //1 minute default
+  bool soapFlowDisabled = false;
+  bool soapDispenseStarted = false;
+  bool soapValveShutOff = false;
+  bool firstTickMeasured = false;
+  uint32_t currTick = 0; //current tick
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -113,7 +120,6 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -123,15 +129,6 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
-  //Variable(s)
-  uint32_t soapDispensationTime = 10000; //10 secs default
-  uint32_t soapValveShutOffTime = 60000; //1 minute default
-  bool soapFlowDisabled = false;
-  bool soapDispenseStarted = false;
-  bool soapValveShutOff = false;
-  bool firstTickMeasured = false;
-  uint32_t currTick = 0; //current tick
-
   //Indicate power on (turn power LED on for some seconds, then turn off)
   HAL_GPIO_WritePin(powerLED_GPIO_Port, powerLED_Pin, GPIO_PIN_SET);
   HAL_Delay(3000);
@@ -528,20 +525,23 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, powerLED_Pin|soapValve_Pin|soapLED_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, powerLED_Pin|soapLED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, waterValve_Pin|fan_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, soapValve_Pin|fan_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : powerLED_Pin soapValve_Pin soapLED_Pin */
-  GPIO_InitStruct.Pin = powerLED_Pin|soapValve_Pin|soapLED_Pin;
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(waterValve_GPIO_Port, waterValve_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pins : powerLED_Pin soapLED_Pin */
+  GPIO_InitStruct.Pin = powerLED_Pin|soapLED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : waterValve_Pin fan_Pin */
-  GPIO_InitStruct.Pin = waterValve_Pin|fan_Pin;
+  /*Configure GPIO pins : soapValve_Pin waterValve_Pin fan_Pin */
+  GPIO_InitStruct.Pin = soapValve_Pin|waterValve_Pin|fan_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
