@@ -46,7 +46,6 @@
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 //Equation: distance = pulse_width * echo_prescaler / (clkMHz * 58)
-#define MIN_PULSE_WIDTH	 15 //3.2cm
 #define MAX_PULSE_WIDTH	 40 //8.6cm
 /* USER CODE END PM */
 
@@ -80,9 +79,8 @@ bool HandsDetected(TIM_HandleTypeDef* htim)
 	{
 		pulseWidth = htim->Instance->CCR2;
 	}
-	if((pulseWidth >= MIN_PULSE_WIDTH) && (pulseWidth <= MAX_PULSE_WIDTH))
+	if(pulseWidth < MAX_PULSE_WIDTH)
 	{
-		HAL_Delay(150);
 		return true;
 	}
 	return false;
@@ -142,6 +140,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  HAL_Delay(500);
 	  //Read soap sensor and actuate soap valve
 	  if(HandsDetected(&htim2))
 	  {
