@@ -13,12 +13,12 @@ Automated Handwashing Station with the following components:
 10. Wires  
 11. 12V DC fan  
 
-How it works  
+## How it works  
 When the hands are brought close to the sensor for water, water gets dispensed (from the actuation of a solenoid valve).  
 When the hands are brought close to the sensor for the fan, the fan blows air to dry the hands.   
 When the hands are brought close to the sensor for soap, soap gets dispensed within a time period of 10 seconds after which  
 soap supply is shut off for a minute (in order to conserve soap).  
 
-Links to the valves used:  
+## Links to the valves used:  
 1. 12V NC solenoid valve (https://a.aliexpress.com/_mqzVB16)    
 2. Mini solenoid valve (https://a.aliexpress.com/_mMwtPMg)  
