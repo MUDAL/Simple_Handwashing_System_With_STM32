@@ -22,3 +22,6 @@ soap supply is shut off for a minute (in order to conserve soap).
 ## Links to the valves used:  
 1. 12V NC solenoid valve (https://a.aliexpress.com/_mqzVB16)    
 2. Mini solenoid valve (https://a.aliexpress.com/_mMwtPMg)  
+
+## Prototype  
+![Image](https://user-images.githubusercontent.com/46250887/192158221-3a3752c1-e850-48b1-a011-398fc1c244d0.jpg)
