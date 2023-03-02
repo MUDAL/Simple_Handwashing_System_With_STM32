@@ -1,7 +1,7 @@
 # Simple_Handwashing_System_With_STM32  
 
 Automated Handwashing Station with the following components:  
-1. STM32F103C8 microcontroller (Bluepill board)  
+1. STM32F103C8 microcontroller (Blue Pill board)  
 2. HCSR04 ultrasonic sensor (x3)  
 3. 12V solenoid normally closed solenoid valve  
 4. 12V mini solenoid valve   
